@@ -1,5 +1,4 @@
-# nofapy
-# nofapy
+# Nofapy
 Programa simples escrito em Python para auxiliar os guerreiros no NOFAP, pensado especificamente para usuários de Linux.
 # Como instalar
 Para instalar, navegue até alguma pasta onde você deseja baixar o instalador, como por exemplo a sua pasta de downloads. Você pode fazer isso abrindo uma janela do terminal e digitando este comando:
@@ -25,6 +24,9 @@ Agora siga as instruções inuitivas do instalador.
 Certifique-se de que você tem o python3 instalado no seu computador antes de tentar executar o instalador, ou ele e o próprio nofapy não irão funcionar.
 
 Para desinstalar o nofapy, é só executar o instalador novamente, e ele irá detectar a instalação, lhe fornecendo a opção para desintalar.
+
+#### Obter ajuda
+Para obter ajuda, digite: `nofapy --help`.
 
 # Como instalar o Python 3
 APT (Debian/*buntu/Linux Mint/Kali Linux...):
