@@ -19,29 +19,65 @@
 
 # Recado para desenvolvedores: Eu sei, meu código está feio e está cheio de coisas desnecessárias. Fiz este programa rapidamente e apenas para fins de entretenimento. Peço para que desconsidere. Caso queira contribuir com o projeto, fique à vontade.
 
+# >===> Importar módulos
 import os, sys, webbrowser, time
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
-
+# Checa se o programa está sendo executado como super-usuário. Se sim, termina o programa e retorna um erro.
 if 'SUDO_UID' in os.environ:
     print("ERRO: Este programa não pode ser executado com privilégios de super-usuário, ou desastres podem acontecer!")
-    exit()
+    exit(1)
 
+##########    [ VARIÁVEIS ]    ##########
+# Define as variáveis como globais.
 global homepath, sospage, nofapvar, nopornvar, timenow, shouldquit
 homepath = str(Path.home())
-
+# Define as variáveis iniciais.
 shouldquit = ""
 nofapvar = f'{homepath}/.config/nofapy/nofap.var'
 nopornvar = f'{homepath}/.config/nofapy/noporn.var'
 reasonvar = f'{homepath}/.config/nofapy/reason.var'
 sospage = f'{homepath}/.config/nofapy/sospage.html'
+timenow = datetime.now()
 
+##########     [ FUNÇÕES ]     ##########
+# Deleta um arquivo. Caso ele não exista, retorna None.
 def deletefile(filepath):
     try:
         return os.remove(filepath)
     except:
         return None
+# Função para criar um novo arquivo. Caso o caminho não exista, ele irá criar.
+def makefile(filepath):
+    directory = os.path.dirname(filepath)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    return open(filepath, 'w').close()
+# Função para escrever em um arquivo.
+def writefile(filepath, content):
+    open(filepath, 'w').write(str(content))
+# Função para ler um arquivo. Caso não exista, retorna None.
+def readfile(filepath):
+    try:
+        return open(filepath, 'r').read()
+    except:
+        return None
+# Função para comparar duas datas
+def comparetime(oldtime, newtime):
+    difference = (newtime - oldtime)
+    # timed = seconds=
+    time = timedelta(seconds=difference.total_seconds())
+    time = str(time).replace(" ", "").replace("days", "").replace("day", "").replace(":", ",").split(".")[0].split(",")
+    if len(time) == 3:
+        return f"0 dia ({time[0]}h:{time[1]}m:{time[2]}s)"
+    if len(time) == 4:
+        if int(time[0]) > 1:
+            s = "s"
+        else:
+            s = ""
+        return f"{time[0]} dia{s} ({time[1]}h:{time[2]}m:{time[3]}s)"
 
+# Define o Nofapy para os padrões de fábrica caso o argumento "--reset-all" seja utilizado.
 try:
     if (sys.argv[1] == "--reset-all"):
         confirm = input("Tem certeza que deseja redefinir o Nofapy para os padrões de fábrica? (s/N): ")
@@ -57,32 +93,12 @@ try:
             shouldquit = True
 except:
     None
-
 if shouldquit == True:
     exit()
-
-now = datetime.now()
-timenow = f"{now.year}, {now.month}, {now.day}, {now.hour}, {now.minute}, {now.second}"
-
-def makefile(filepath):
-    directory = os.path.dirname(filepath)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    return open(filepath, 'w').close()
-
-def writefile(filepath, content):
-    open(filepath, 'w').write(content)
-
-def readfile(filepath):
-    try:
-        return open(filepath, 'r').read()
-    except:
-        return None
 
 if readfile(nofapvar) == None:
     makefile(nofapvar)
     writefile(nofapvar, timenow)
-    print("Olá! Seja bem-vindo ao Nofapy. Parece que essa é a sua primeira vez executando. Digite --help para obter uma lista de ajuda.")
     print()
 
 if readfile(nopornvar) == None:
@@ -94,42 +110,40 @@ if readfile(reasonvar) == None:
     writefile(reasonvar, "")
 
 if readfile(sospage) == None:
+    print("Olá! Seja bem-vindo ao Nofapy. Parece que essa é a sua primeira vez executando o programa. Digite --help para obter uma lista de ajuda.")
     makefile(sospage)
     writefile(sospage, "<html style='display:flex;flex-direction:row;justify-content:center;align-items:center;height:100vh;text-align:center;></html><head><meta charset='UTF-8'><title>NÃO FAÇA ISSO!</title></head><div'><meta charset='utf8'><h1 style='color:red'>⚠ ATENÇÃO! ⚠</h1><br><h2>Continue firme, guerreiro. Não recaia, não venda a sua alma para Satanás!<br><br>Eu abri 3 guias no seu navegador com o conteúdo necessário para que você não recaia.<br><br>Mantenha-se firme e forte, reze a oração de São Bento, uma dezena do Santo Rosário e não se deixe tentar.</h2><br><br><br><br><br><h3 style='color:orange'>✝ Crux Sacra Sit Mihi Lux. Non Draco Sit Mihi Dux. Vade Retro Satana! Nunquam Suade Mihi Vana. Sunt Mala Quae Libas. Ipse Venena Bibas. ✝</h3></div></html>")
 
-nofapstr = readfile(nofapvar)
+nofapdate = datetime.strptime(readfile(nofapvar), "%Y-%m-%d %H:%M:%S.%f")
+noporndate = datetime.strptime(readfile(nopornvar), "%Y-%m-%d %H:%M:%S.%f")
 
-nofapstr = readfile(nofapvar)
-nofap_datetime = datetime.strptime(nofapstr, "%Y, %m, %d, %H, %M, %S")
-now = datetime.now()
-time_delta = now - nofap_datetime
-nofapsec = int(time_delta.total_seconds())
-nofapfinal = f'{divmod(nofapsec, 86400)[0]} dias ({divmod(nofapsec, 86400)[0]}d:{divmod(nofapsec, 3600)[0]}h:{divmod(nofapsec, 60)[0]}m:{(nofapsec) % 60}s)'
-
-nopornstr = readfile(nopornvar)
-noporn_datetime = datetime.strptime(nopornstr, "%Y, %m, %d, %H, %M, %S")
-now = datetime.now()
-time_delta = now - noporn_datetime
-nopornsec = int(time_delta.total_seconds())
-nopornfinal = f'{divmod(nopornsec, 86400)[0]} dias ({divmod(nopornsec, 86400)[0]}d:{divmod(nopornsec, 3600)[0]}h:{divmod(nopornsec, 60)[0]}m:{(nopornsec) % 60}s)'
+nofaptime = comparetime(nofapdate, timenow)
+noporntime = comparetime(noporndate, timenow)
+# print(nofapdate)
+# print(noporndate)
+# print(datetime.now())
 
 def timer():
-    print(f"Tempo de NOFAP: {nofapfinal}")
-    print(f"Tempo de NOPORN: {nopornfinal}")
+    print(f"Tempo de NOFAP: {nofaptime}")
+    print(f"Tempo de NOPORN: {noporntime}")
     print()
     if len(readfile(reasonvar)) == 0:
-        print(f'Motivo da última recaída: ———{readfile(reasonvar)}')
+        print(f'Motivo da última recaída: ———')
     else:
         print(f'Motivo da última recaída: {readfile(reasonvar)}')
 
 def reason():
     reason = input("Digito o motivo da recaída, ou deixe em branco para pular: ")
     if len(reason) > 0:
+        deletefile(reasonvar)
         writefile(reasonvar, reason)
+    else:
+        deletefile(reasonvar)
 
 # Commands
 try:
     if (sys.argv[1] == "--help") or (sys.argv[1] == "-h"):
+        print(f"Nofapy | v2.0 | Licensa: GNU GPL 3")
         print(f">==========> AJUDA <==========<")
         print(f"Digite --help ou -h para acessar o comando de ajuda.")
         print(f"Digite --recaida-nofap para resetar a contagem do NOFAP.")
@@ -153,10 +167,8 @@ try:
         confirm = input("Tem certeza que deseja resetar a sua contagem do NOFAP? (s/N): ")
         if confirm.lower() == "s":
             reason()
-            now = datetime.now()
-            timenow = f"{now.year}, {now.month}, {now.day}, {now.hour}, {now.minute}, {now.second}"
-            writefile(nofapvar, timenow)
-            print("A sua contagem do NOFAP foi resetada. ")
+            deletefile(nofapvar)
+            print("A sua contagem do NOFAP foi resetada. Execute o Nofapy quando estiver pronto para re-começar a sua contagem do NOFAP.")
         else:
             print("Cancelado.")
 
@@ -164,10 +176,8 @@ try:
         confirm = input("Tem certeza que deseja resetar a sua contagem do NOPORN? (s/N): ")
         if confirm.lower() == "s":
             reason()
-            now = datetime.now()
-            timenow = f"{now.year}, {now.month}, {now.day}, {now.hour}, {now.minute}, {now.second}"
-            writefile(nopornvar, timenow)
-            print("A sua contagem do NOFAP foi resetada. ")
+            deletefile(nopornvar)
+            print("A sua contagem do NOPORN foi resetada. Execute o Nofapy quando estiver pronto para re-começar a sua contagem do NOPORN.")
         else:
             print("Cancelado.")
 
@@ -175,13 +185,12 @@ try:
         confirm = input("Tem certeza que deseja resetar a sua contagem do NOFAP e do NOPORN? (s/N): ")
         if confirm.lower() == "s":
             reason()
-            now = datetime.now()
-            timenow = f"{now.year}, {now.month}, {now.day}, {now.hour}, {now.minute}, {now.second}"
-            writefile(nofapvar, timenow)
-            writefile(nopornvar, timenow)
-            print("A sua contagem do NOFAP e NOPORN foi resetada. ")
+            deletefile(nofapvar)
+            deletefile(nopornvar)
+            print("A sua contagem do NOFAP e NOPORN foi resetada. Execute o Nofapy quando estiver pronto para re-começar a sua contagem do NOFAP e do NOPORN.")
         else:
             print("Cancelado.")
+
     elif sys.argv[1] == "--reset-all":
         None
     else:
