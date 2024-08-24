@@ -1,30 +1,32 @@
-# Nofapy
-Programa simples escrito em Python para auxiliar os guerreiros no NOFAP, pensado especificamente para usuários de Linux.
+# Nofapy (v2.0)
+Um programa CLI simples e sem dependências escrito em Python para auxiliar os guerreiros no NOFAP, pensado especificamente para usuários de Linux.
 # Exemplo
 ```
-tux@pc:~$ nofapy
-Olá! Seja bem-vindo ao Nofapy. Parece que essa é a sua primeira vez executando. Digite --help para obter uma lista de ajuda.
-
-Tempo de NOFAP: 0 dias (0d:0h:0m:0s)
-Tempo de NOPORN: 0 dias (0d:0h:0m:0s)
+tux@nix:~$ nofapy
+Olá! Seja bem-vindo ao Nofapy. Parece que essa é a sua primeira vez executando o programa. Digite --help para obter uma lista de ajuda.
+Tempo de NOFAP: 0 dia (0h:00m:00s)
+Tempo de NOPORN: 0 dia (0h:00m:00s)
 
 Motivo da última recaída: ———
-tux@pc:~$ nofapy --recaida-nofap
+tux@nix:~$ nofapy --recaida-nofap
 Tem certeza que deseja resetar a sua contagem do NOFAP? (s/N): s
-Digito o motivo da recaída, ou deixe em branco para pular: Me deixei vencer pela carne.
-A sua contagem do NOFAP foi resetada. 
-tux@pc:~$ nofapy
-Tempo de NOFAP: 0 dias (0d:0h:0m:3s)
-Tempo de NOPORN: 0 dias (0d:0h:0m:32s)
+Digito o motivo da recaída, ou deixe em branco para pular: Eu falhei miseravelmente com Deus e comigo mesmo.
+A sua contagem do NOFAP foi resetada. Execute o Nofapy quando estiver pronto para re-começar a sua contagem do NOFAP.
+tux@nix:~$ nofapy
+Tempo de NOFAP: 0 dia (0h:00m:00s)
+Tempo de NOPORN: 0 dia (0h:00m:50s)
 
-Motivo da última recaída: Me deixei vencer pela carne.
-tux@pc:~$ nofapy --sos
+Motivo da última recaída: Eu falhei miseravelmente com Deus e comigo mesmo.
+tux@nix:~$ nofapy --emergencia
 Abrindo guias de emergência no seu navegador padrão...
-tux@pc:~$ nofapy --recaida-geral
 [...]
 ```
-### (Dev: Para fazer)
->Consertar a discordância entre dias, meses, horas, etc., cujos valores aparecem um valor absurdamente desconexo após certas circustâncias.
+### TO DO: O que ainda deve ser feito
+>✅ [FEITO] Consertar a discordância entre dias, meses, horas, etc., cujos valores aparecem um valor absurdamente desconexo após certas circustâncias.
+
+>🕒️ [PENDENTE] Adicionar opção para definir manualmente a data de início do NOFAP ou do NOPORN.
+
+>🕒️ [PENDENTE] Criar uma GUI (Interface gráfica), e tornar o CLI (Interface de linha de comandos) opcional.
 
 # Como instalar
 Para instalar, navegue até alguma pasta onde você deseja baixar o instalador, como por exemplo a sua pasta de downloads. Você pode fazer isso abrindo uma janela do terminal e digitando este comando:
@@ -35,7 +37,7 @@ Após isso, **clone esse repositório** utilizando o seguinte comando:
 ```bash
 git clone https://github.com/SurnameGuy/nofapy
 ```
-*(Observação: Você precisa ter o git instalado em seu computador. Caso não tenha, baixe manualmente o arquivo .zip clicando no botão ![](https://i.imgur.com/mrv5onm.png))*
+*(Observação: Você precisa ter o git instalado em seu computador para clonar o repositório pelo terminal. Caso não tenha, baixe manualmente o arquivo .zip clicando no botão ![](https://i.imgur.com/mrv5onm.png))*
 
 Depois de ter clonado o repositório, navegue até a pasta criada:
 ```bash
@@ -55,13 +57,13 @@ Para desinstalar o nofapy, é só executar o instalador novamente, e ele irá de
 ### Obter ajuda
 Para obter ajuda, digite: `nofapy --help`.
 ### Definir manualmente o meu início do NOFAP
-Essa função ainda não está disponível, porém, você pode manualmente alterar a data de início do seu NOFAP digitando:
+Essa função ainda não está disponível, porém, você pode manualmente alterar a data de início do seu NOFAP e NOPORN. Primeiro, digite:
 ```bash
-echo -n "AAAA, MM, DD, hh, mm, ss" > ~/.config/nofapy/nofap.var
-# Substitua as letras acima pelo ano, mês, dia, hora, minuto e segundo que você começou.
-# Exemplo: "2020, 05, 01, 12, 30, 00" significa 01/05/2024 às 12:30:00.
-```
-Caso algo errado ocorra, você pode facilmente reverter ao padrão de fábrica digitando:
+nofapy --recaida-geral```
+E depois altere o horário do seu computador para a data de quando você começou a sua jornada de castidade. Finalmente, execute:
+```bash
+nofapy```
+Então a data será corrigida. Mas caso algo errado ocorra, você pode facilmente reverter ao padrão de fábrica digitando:
 ```bash
 nofapy --reset-all```
 
