@@ -53,7 +53,7 @@ Certifique-se de que você tem o python3 instalado no seu computador antes de te
 
 Para desinstalar o nofapy, é só executar o instalador novamente, e ele irá detectar a instalação, lhe fornecendo a opção para desintalar.
 
-#FAQ
+# FAQ
 ### Obter ajuda
 Para obter ajuda, digite: `nofapy --help`.
 ### Definir manualmente o meu início do NOFAP
